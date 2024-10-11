@@ -24,7 +24,7 @@ import java.util.Locale
 import scala.collection.mutable
 
 import com.google.common.annotations.VisibleForTesting
-import org.apache.commons.lang3.StringUtils
+//import org.apache.commons.lang3.StringUtils
 import org.apache.hadoop.security.UserGroupInformation
 
 import org.apache.kyuubi._
@@ -111,9 +111,10 @@ class SparkProcessBuilder(
   }
 
   override protected val engineScalaBinaryVersion: String = {
-    env.get("SPARK_SCALA_VERSION").filter(StringUtils.isNotBlank).getOrElse {
-      extractSparkCoreScalaVersion(Paths.get(sparkHome, "jars").toFile.list())
-    }
+//    env.get("SPARK_SCALA_VERSION").filter(StringUtils.isNotBlank).getOrElse {
+//      extractSparkCoreScalaVersion(Paths.get(sparkHome, "jars").toFile.list())
+//    }
+    "2.13"
   }
 
   override protected lazy val engineHomeDirFilter: FileFilter = file => {

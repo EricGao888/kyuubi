@@ -39,7 +39,8 @@ import org.apache.kyuubi.client.exception.KyuubiRestException
 import org.apache.kyuubi.client.util.BatchUtils._
 import org.apache.kyuubi.config.KyuubiConf._
 import org.apache.kyuubi.config.KyuubiReservedKeys._
-import org.apache.kyuubi.engine.{ApplicationInfo, ApplicationManagerInfo, KillResponse, KyuubiApplicationManager}
+import org.apache.kyuubi.engine.{ApplicationInfo, ApplicationManagerInfo, KillResponse}
+//import org.apache.kyuubi.engine.{ApplicationInfo, ApplicationManagerInfo, KillResponse, KyuubiApplicationManager}
 import org.apache.kyuubi.operation.{BatchJobSubmission, FetchOrientation, OperationState}
 import org.apache.kyuubi.server.KyuubiServer
 import org.apache.kyuubi.server.api.ApiRequestContext
@@ -191,11 +192,12 @@ private[v1] class BatchesResource extends ApiRequestContext with Logging {
       batchRequest != null,
       "batchRequest is required and please check the content type" +
         " of batchRequest is application/json")
-    val tempFile = Utils.writeToTempFile(
-      resourceFileInputStream,
-      KyuubiApplicationManager.uploadWorkDir,
-      resourceFileMetadata.getFileName)
-    batchRequest.setResource(tempFile.getPath)
+//    val tempFile = Utils.writeToTempFile(
+//      resourceFileInputStream,
+//      KyuubiApplicationManager.uploadWorkDir,
+//      resourceFileMetadata.getFileName)
+//    batchRequest.setResource(tempFile.getPath)
+//    batchRequest.setResource(tempFile.getPath)
     openBatchSessionInternal(batchRequest, isResourceFromUpload = true)
   }
 

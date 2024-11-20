@@ -24,7 +24,7 @@ import java.util.Locale
 import scala.collection.mutable
 
 import com.google.common.annotations.VisibleForTesting
-//import org.apache.commons.lang3.StringUtils
+// import org.apache.commons.lang3.StringUtils
 import org.apache.hadoop.security.UserGroupInformation
 
 import org.apache.kyuubi._
@@ -114,7 +114,7 @@ class SparkProcessBuilder(
 //    env.get("SPARK_SCALA_VERSION").filter(StringUtils.isNotBlank).getOrElse {
 //      extractSparkCoreScalaVersion(Paths.get(sparkHome, "jars").toFile.list())
 //    }
-    "2.13"
+    "2.12"
   }
 
   override protected lazy val engineHomeDirFilter: FileFilter = file => {
@@ -148,7 +148,9 @@ class SparkProcessBuilder(
 
     setupKerberos(buffer)
 
-    mainResource.foreach { r => buffer += r }
+//    mainResource.foreach { r => buffer += r }
+
+    buffer += "oss://datadev-oss-hdfs-test/chufeng-test/kyuubi-spark-sql-engine_2.12-1.9.2.jar"
 
     buffer
   }
@@ -264,6 +266,9 @@ class SparkProcessBuilder(
         }
       }
     }
+
+    map += ("spark.emr.serverless.network.service.name" -> "kyuubi")
+
     map.result().toMap
   }
 

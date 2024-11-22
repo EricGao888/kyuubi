@@ -112,6 +112,8 @@ spec:
               mountPath: {{ .Values.kyuubiConfDir }}
             - name: conf-spark
               mountPath: {{ .Values.sparkConfDir }}
+            - name: shared-storage
+              mountPath: /tmp
             {{- with .Values.volumeMounts }}
               {{- tpl (toYaml .) $ | nindent 12 }}
             {{- end }}
@@ -125,6 +127,10 @@ spec:
         - name: conf-spark
           configMap:
             name: {{ .Release.Name }}-spark
+        - name: shared-storage
+          hostPath:
+            path: /shared_storage
+            type: Directory
         {{- with .Values.volumes }}
           {{- tpl (toYaml .) $ | nindent 8 }}
         {{- end }}

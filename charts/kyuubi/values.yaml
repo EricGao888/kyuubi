@@ -171,6 +171,11 @@ kyuubiConf:
     kyuubi.authentication=NONE
     kyuubi.frontend.bind.host=localhost
     kyuubi.engine.type=SPARK_SQL
+    kyuubi.engine.pool.size=2
+    kyuubi.engine.pool.size.threshold=2
+    kyuubi.kubernetes.spark.cleanupTerminatedDriverPod.kind=ALL
+    kyuubi.kubernetes.spark.cleanupTerminatedDriverPod.checkInterval=PT1M
+    kyuubi.session.engine.idle.timeout=PT1M
   #    kyuubi.engine.share.level=USER
   #    kyuubi.session.engine.initialize.timeout=PT3M
   #    kyuubi.ha.addresses=zk1:2181,zk2:2181,zk3:2181
@@ -209,6 +214,10 @@ sparkConf:
     spark.kubernetes.executor.volumes.hostPath.shared-storage.options.path=/shared_storage
     spark.kubernetes.executor.volumes.hostPath.shared-storage.options.type=Directory
     spark.sql.warehouse.dir=/tmp
+    spark.driver.memory=512m
+    spark.executor.memory=512m
+    spark.executor.instances=1
+
   #    # S3 dependencies
   #    spark.jars.packages=org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.262
   #    spark.driver.extraJavaOptions=-Divy.cache.dir=/tmp -Divy.home=/tmp

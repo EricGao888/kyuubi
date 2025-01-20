@@ -170,6 +170,8 @@ kyuubiConf:
   kyuubiDefaults: |
     kyuubi.authentication=NONE
     kyuubi.frontend.bind.host=localhost
+    kyuubi.frontend.thrift.http.bind.host=localhost
+    kyuubi.frontend.protocols=THRIFT_BINARY,REST,THRIFT_HTTP
     kyuubi.engine.type=SPARK_SQL
     kyuubi.engine.pool.size=2
     kyuubi.engine.pool.size.threshold=2

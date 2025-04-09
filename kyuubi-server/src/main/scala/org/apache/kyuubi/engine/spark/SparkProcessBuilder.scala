@@ -150,7 +150,7 @@ class SparkProcessBuilder(
 
 //    mainResource.foreach { r => buffer += r }
 
-    buffer += "oss://datadev-oss-hdfs-test/chufeng-test/kyuubi-spark-sql-engine_2.12-1.9.2.jar"
+//    buffer += "oss://datadev-oss-hdfs-test/chufeng-test/kyuubi-spark-sql-engine_2.12-1.9.2.jar"
 
     buffer
   }
@@ -267,7 +267,7 @@ class SparkProcessBuilder(
       }
     }
 
-    map += ("spark.emr.serverless.network.service.name" -> "kyuubi")
+//    map += ("spark.emr.serverless.network.service.name" -> "kyuubi")
 
     map.result().toMap
   }

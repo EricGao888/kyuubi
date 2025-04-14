@@ -63,7 +63,8 @@ object JDBCMetadataStoreConf {
       .serverOnly
       .stringConf
       .transformToUpperCase
-      .createWithDefault("SQLITE")
+      .createWithDefault("MYSQL")
+//      .createWithDefault("SQLITE")
 
   val METADATA_STORE_JDBC_DATABASE_SCHEMA_INIT: ConfigEntry[Boolean] =
     buildConf("kyuubi.metadata.store.jdbc.database.schema.init")
@@ -90,7 +91,8 @@ object JDBCMetadataStoreConf {
       .version("1.6.0")
       .serverOnly
       .stringConf
-      .createWithDefault("jdbc:sqlite:<KYUUBI_HOME>/kyuubi_state_store.db")
+      .createWithDefault("jdbc:mysql://localhost:3306/kyuubi")
+//      .createWithDefault("jdbc:sqlite:<KYUUBI_HOME>/kyuubi_state_store.db")
 
   val METADATA_STORE_JDBC_USER: ConfigEntry[String] =
     buildConf("kyuubi.metadata.store.jdbc.user")
@@ -98,7 +100,8 @@ object JDBCMetadataStoreConf {
       .version("1.6.0")
       .serverOnly
       .stringConf
-      .createWithDefault("")
+      .createWithDefault("kyuubi")
+//      .createWithDefault("")
 
   val METADATA_STORE_JDBC_PASSWORD: ConfigEntry[String] =
     buildConf("kyuubi.metadata.store.jdbc.password")
@@ -106,7 +109,8 @@ object JDBCMetadataStoreConf {
       .version("1.6.0")
       .serverOnly
       .stringConf
-      .createWithDefault("")
+      .createWithDefault("kyuubi")
+//      .createWithDefault("")
 
   val METADATA_STORE_JDBC_PRIORITY_ENABLED: ConfigEntry[Boolean] =
     buildConf("kyuubi.metadata.store.jdbc.priority.enabled")

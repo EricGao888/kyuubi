@@ -145,6 +145,15 @@ class BatchJobSubmission(
     }
 
     _applicationInfo.foreach { appInfo =>
+      var furnishedEngineState = appInfo.state.toString
+      if ("NOT_FOUND".equals(furnishedEngineState)) {
+        if (OperationState.ERROR.equals(state)) {
+          furnishedEngineState = ApplicationState.FAILED.toString
+        } else if (OperationState.FINISHED.equals(state)) {
+          furnishedEngineState = ApplicationState.FINISHED.toString
+        }
+      }
+
       val metadataToUpdate = Metadata(
         identifier = batchId,
         state = state.toString,
@@ -152,7 +161,7 @@ class BatchJobSubmission(
         engineId = appInfo.id,
         engineName = appInfo.name,
         engineUrl = appInfo.url.orNull,
-        engineState = appInfo.state.toString,
+        engineState = furnishedEngineState,
         engineError = appInfo.error,
         endTime = endTime)
       session.sessionManager.updateMetadata(metadataToUpdate)

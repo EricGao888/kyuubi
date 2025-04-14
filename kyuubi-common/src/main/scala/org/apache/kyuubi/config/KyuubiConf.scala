@@ -1753,7 +1753,8 @@ object KyuubiConf {
         "intended exposing to end users, it may be removed in anytime.")
       .version("1.8.0")
       .booleanConf
-      .createWithDefault(false)
+      .createWithDefault(true)
+//      .createWithDefault(false)
 
   val BATCH_SUBMITTER_THREADS: ConfigEntry[Int] =
     buildConf("kyuubi.batch.submitter.threads")
@@ -1776,7 +1777,8 @@ object KyuubiConf {
         "intended exposing to end users, it may be removed in anytime.")
       .version("1.8.0")
       .stringConf
-      .createWithDefault("1")
+      .createWithDefault("2")
+//      .createWithDefault("1")
 
   val SERVER_EXEC_POOL_SIZE: ConfigEntry[Int] =
     buildConf("kyuubi.backend.server.exec.pool.size")

@@ -23,23 +23,20 @@ import java.util.{Collections, Locale, UUID}
 import java.util.concurrent.ConcurrentHashMap
 import javax.ws.rs._
 import javax.ws.rs.core.MediaType
-
 import scala.collection.JavaConverters._
 import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
-
 import io.swagger.v3.oas.annotations.media.{Content, Schema}
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.glassfish.jersey.media.multipart.{FormDataContentDisposition, FormDataParam}
-
 import org.apache.kyuubi.{Logging, Utils}
 import org.apache.kyuubi.client.api.v1.dto._
 import org.apache.kyuubi.client.exception.KyuubiRestException
 import org.apache.kyuubi.client.util.BatchUtils._
 import org.apache.kyuubi.config.KyuubiConf._
 import org.apache.kyuubi.config.KyuubiReservedKeys._
-import org.apache.kyuubi.engine.{ApplicationInfo, ApplicationManagerInfo, KillResponse}
+import org.apache.kyuubi.engine.{ApplicationInfo, ApplicationManagerInfo, ApplicationState, KillResponse}
 //import org.apache.kyuubi.engine.{ApplicationInfo, ApplicationManagerInfo, KillResponse, KyuubiApplicationManager}
 import org.apache.kyuubi.operation.{BatchJobSubmission, FetchOrientation, OperationState}
 import org.apache.kyuubi.server.KyuubiServer
@@ -96,6 +93,15 @@ private[v1] class BatchesResource extends ApiRequestContext with Logging {
       }
     }
 
+    var furnishedEngineState = appState
+    if ("NOT_FOUND".equals(furnishedEngineState)) {
+      if (OperationState.ERROR.equals(batchOpStatus.state)) {
+        furnishedEngineState = ApplicationState.FAILED.toString
+      } else if (OperationState.FINISHED.equals(batchOpStatus.state)) {
+        furnishedEngineState = ApplicationState.FINISHED.toString
+      }
+    }
+
     new Batch(
       batchOp.batchId,
       session.user,
@@ -104,7 +110,7 @@ private[v1] class BatchesResource extends ApiRequestContext with Logging {
       batchOp.appStartTime,
       appId,
       appUrl,
-      appState,
+      furnishedEngineState,
       appDiagnostic,
       session.connectionUrl,
       batchOpStatus.state.toString,

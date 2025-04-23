@@ -43,7 +43,7 @@ class JpsApplicationOperation extends ApplicationOperation {
 
   override def isSupported(appMgrInfo: ApplicationManagerInfo): Boolean = {
     runner != null &&
-    (appMgrInfo.resourceManager.isEmpty || appMgrInfo.resourceManager.get == "local")
+    (appMgrInfo.resourceManager.isEmpty || appMgrInfo.resourceManager.get.contains("local"))
   }
 
   private def getEngine(tag: String): Option[String] = {

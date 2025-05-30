@@ -922,12 +922,30 @@ public class KyuubiDatabaseMetaData implements SQLDatabaseMetaData {
   private TGetInfoResp getServerInfo(TGetInfoType type) throws SQLException {
     TGetInfoReq req = new TGetInfoReq(sessHandle, type);
     TGetInfoResp resp;
-    try {
-      resp = client.GetInfo(req);
-    } catch (TException e) {
-      throw new KyuubiSQLException(e.getMessage(), "08S01", e);
+//    try {
+//      resp = client.GetInfo(req);
+//    } catch (TException e) {
+//      throw new KyuubiSQLException(e.getMessage(), "08S01", e);
+//    }
+    boolean connected = false;
+    Exception e0 = new Exception();
+    for (int i=1; i<=10; i++) {
+      try {
+        resp = client.GetInfo(req);
+        connected = true;
+        Utils.verifySuccess(resp.getStatus());
+        return resp;
+      } catch (TException e) {
+        e0 = e;
+        System.out.println(String.format("Warn: failed to get server info, retrying...[%s]", i));
+        try {
+          Thread.sleep(1000 * 60 * 1);
+        } catch (Exception e1) {
+          e1.printStackTrace();
+        }
+      }
     }
-    Utils.verifySuccess(resp.getStatus());
-    return resp;
+
+    throw new KyuubiSQLException(e0.getMessage(), "08S01", e0);
   }
 }
